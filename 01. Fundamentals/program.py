@@ -161,7 +161,6 @@ class Computer(ABC):
         self.brand = ""
         self.model = ""
         self.user = user
-        self.price = 0
         self.input_device = input_device
         self.processor_chip = processor_chip
         self.memory = memory
@@ -223,7 +222,7 @@ class Computer(ABC):
 
     @abstractmethod
     def set_price(self, price):
-        self.price = price
+        pass
 
     @abstractmethod
     def get_price(self):
@@ -241,7 +240,7 @@ class AccessoryDecorator(Computer):
     def get_name(self):
         return self.computer.get_name()
  
-class HDMIDecorator(Computer):
+class HDMIDecorator(AccessoryDecorator):
     """Wireless Wrapper/Decorator Class"""
     def __init__(self, computer:Computer):
         self.computer = computer
@@ -257,7 +256,7 @@ class HDMIDecorator(Computer):
         #print(f"HDMI Enabled {self.computer.get_name()}")
         return "HDMI Enabled " + self.computer.get_name()
     
-class TypeCDecorator(Computer):
+class TypeCDecorator(AccessoryDecorator):
     """Wireless Wrapper/Decorator Class"""
     def __init__(self, computer:Computer):
         self.computer = computer
@@ -273,7 +272,7 @@ class TypeCDecorator(Computer):
         #print(f"TypeC Enabled {self.computer.get_name()}")
         return "TypeC Enabled " + self.computer.get_name()
 
-class BacklightDecorator(Computer):
+class BacklightDecorator(AccessoryDecorator):
     """ Backlight Decorator Feature Wrapper/Decorator Class"""
     def __init__(self, computer:Computer):
         self.computer = computer
@@ -296,13 +295,13 @@ class BacklightDecorator(Computer):
 # Inheritance: Desktop is inheriting from Computer
 class Desktop(Computer):
     # Fields
-    pass
+    price = 3000000
     # Methods
-    def set_price(self, price):
-        self.price = price
+    def set_price(self, new_price):
+        self.price = new_price
         
     def get_price(self):
-        return 3000000
+        return self.price
     
     def get_name(self):
         return "Desktop \n"
@@ -310,7 +309,7 @@ class Desktop(Computer):
 # Inheritance: Laptop is inheriting from Computer
 class Laptop(Computer):
     # Fields
-    pass
+    price = 2000000
 
     # Methods
     def fold(self):
@@ -318,11 +317,11 @@ class Laptop(Computer):
         print("Step1: Folding")
         print("")
     
-    def set_price(self, price):
-        self.price = price
+    def set_price(self, new_price):
+        self.price = new_price
         
     def get_price(self):
-        return 2000000
+        return self.price
     
     def get_name(self):
         return "Laptop \n"
@@ -330,12 +329,12 @@ class Laptop(Computer):
 # Inheritance: Walltop is inheriting from Computer
 class Walltop(Computer):
     # Fields
-    # = 1500000
+    price = 1500000
     def set_price(self, new_price):
         self.price = new_price
         
     def get_price(self):
-        return 1500000
+        return self.price
     
     def get_name(self):
         return "Walltop \n"
@@ -385,7 +384,7 @@ computer.output("abs")
 walltop_with_typeC =  TypeCDecorator(computer)
 print(walltop_with_typeC.get_name())
 print(walltop_with_typeC.get_price())
-walltop_with_typeC.set_price(2000000)
+walltop_with_typeC.computer.set_price(2000000)
 print(walltop_with_typeC.get_price()) # returns old value
 
 
